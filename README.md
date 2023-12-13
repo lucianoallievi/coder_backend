@@ -1,3 +1,3 @@
 # coder_backend
 
-creación de clases productManager y userManager
+Creación de clases productManager y userManager.

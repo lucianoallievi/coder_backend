@@ -54,4 +54,4 @@ pm.create({
   stock: 50,
 });
 
-console.log(pm.readOne(1));
+console.log(pm.readOne(2));

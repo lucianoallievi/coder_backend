@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "title": "medias",
+    "photo": "photo.jpg",
+    "price": 2.44,
+    "stock": 90
+  },
+  {
+    "id": 2,
+    "title": "zapatillas",
+    "photo": "photo.jpg",
+    "price": 20.5,
+    "stock": 50
+  },
+  {
+    "id": 3,
+    "title": "medias",
+    "photo": "photo.jpg",
+    "price": 2.44,
+    "stock": 90
+  },
+  {
+    "id": 4,
+    "title": "zapatillas",
+    "photo": "photo.jpg",
+    "price": 20.5,
+    "stock": 50
+  }
+]

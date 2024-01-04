@@ -36,6 +36,12 @@ class ProductManager {
   readOne(id) {
     return ProductManager.#products.find((one) => one.id == id);
   }
+
+  destroy(id) {
+    ProductManager.#products = ProductManager.#products.filter(
+      (product) => product.id != id
+    );
+  }
 }
 
 const pm = new ProductManager();
@@ -50,8 +56,10 @@ pm.create({
 pm.create({
   title: "zapatillas",
   photo: "photo.jpg",
-  //price: 20.5,
+  price: 20.5,
   stock: 50,
 });
 
-console.log(pm.readOne(2));
+console.log(pm.read());
+pm.destroy(2);
+console.log(pm.read());

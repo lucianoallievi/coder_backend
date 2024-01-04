@@ -33,6 +33,10 @@ class UserManager {
   readOne(id) {
     return UserManager.#users.find((one) => one.id == id);
   }
+
+  destroy(id) {
+    UserManager.#users = UserManager.#users.filter((user) => user.id != id);
+  }
 }
 
 const um = new UserManager();
@@ -45,8 +49,9 @@ um.create({
 
 um.create({
   name: "roberto",
-  //photo: "roberto.jpg",
+  photo: "roberto.jpg",
   email: "roberto@dominio.com",
 });
 
+um.destroy(2);
 console.log(um.readOne(2));

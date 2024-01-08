@@ -2,7 +2,7 @@ import fs from "fs";
 import crypto from "crypto";
 
 class UserManager {
-  static #path = "./data/fs/files/users.json";
+  static #path = "./src/data/fs/files/users.json";
   static #encode = "utf-8";
   static #writeToFS(data) {
     fs.writeFileSync(UserManager.#path, data);
@@ -49,6 +49,34 @@ class UserManager {
     users = users.filter((users) => users.id != id);
     UserManager.#writeToFS(JSON.stringify(users, null, 2));
     return users;
+  }
+
+  destroy(id) {
+    let users = JSON.parse(UserManager.#readFromFS());
+    const user = users.find((each) => each.id == id);
+    if (user) {
+      users = users.filter((product) => product.id != id);
+      UserManager.#writeToFS(JSON.stringify(users, null, 2));
+      return user;
+    } else {
+      return false;
+    }
+  }
+
+  update(id, data) {
+    let users = JSON.parse(UserManager.#readFromFS());
+    const i = users.findIndex((product) => {
+      return users.id == id;
+    });
+    if (i > -1) {
+      users[i].name = data.name;
+      users[i].photo = data.photo;
+      users[i].email = data.email;
+      UserManager.#writeToFS(JSON.stringify(users, null, 2));
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 

@@ -26,5 +26,12 @@
     "photo": "photo.jpg",
     "price": 20.5,
     "stock": 50
+  },
+  {
+    "id": 5,
+    "title": "telefono",
+    "photo": "telefono.jpg",
+    "price": 15000,
+    "stock": 30
   }
 ]

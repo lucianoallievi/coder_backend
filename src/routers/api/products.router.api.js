@@ -1,34 +1,34 @@
 import { Router } from "express";
-import products from "../../data/fs/products.fs.js";
-
+// import products from "../../data/fs/products.fs.js";
+import { products } from "../../data/mongo/manager.mongo.js";
 const productsRouter = Router();
 
-productsRouter.get("/", (req, res) => {
+productsRouter.get("/", async (req, res, next) => {
   try {
-    const all = products.read();
+    const filter = {};
+    const options = {
+      limit: req.query.limit || 20,
+      page: req.query.page || 1,
+    };
+
+    const all = await products.read({ filter });
     if (all.length) {
       return res.json({
         statusCode: 200,
         response: all,
       });
     } else {
-      return res.json({
-        statusCode: 404,
-        response: { succes: false, message: "not found" },
-      });
+      return next();
     }
   } catch (error) {
-    return res.json({
-      statusCode: 500,
-      message: error.message,
-    });
+    return next(error);
   }
 });
 
-productsRouter.get("/:pid", (req, res) => {
+productsRouter.get("/:pid", async (req, res, next) => {
   try {
     const { pid } = req.params;
-    const product = products.readOne(pid);
+    const product = await products.readOne(pid);
     if (product) {
       return res.json({
         statusCode: 200,
@@ -41,18 +41,14 @@ productsRouter.get("/:pid", (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
-    return res.json({
-      statusCode: 500,
-      message: error.message,
-    });
+    return next(error);
   }
 });
 
-productsRouter.delete("/:pid", (req, res) => {
+productsRouter.delete("/:pid", async (req, res, next) => {
   try {
     const { pid } = req.params;
-    const product = products.destroy(pid);
+    const product = await products.destroy(pid);
     if (product) {
       return res.json({
         statusCode: 200,
@@ -67,17 +63,13 @@ productsRouter.delete("/:pid", (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
-    return res.json({
-      statusCode: 500,
-      message: error.message,
-    });
+    return next(error);
   }
 });
 
-productsRouter.post("/", (req, res) => {
+productsRouter.post("/", async (req, res, next) => {
   try {
-    if (products.create(req.body)) {
+    if (await products.create(req.body)) {
       return res.json({
         statusCode: 201,
         response: { succes: true, message: "created" },
@@ -89,17 +81,14 @@ productsRouter.post("/", (req, res) => {
       });
     }
   } catch (error) {
-    return res.json({
-      statusCode: 500,
-      message: error.message,
-    });
+    return next(error);
   }
 });
 
-productsRouter.put("/:pid", (req, res) => {
+productsRouter.put("/:pid", async (req, res, next) => {
   const { pid } = req.params;
   try {
-    if (products.update(pid, req.body)) {
+    if (await products.update(pid, req.body)) {
       return res.json({
         statusCode: 200,
         response: { succes: true, message: "ok" },
@@ -111,10 +100,7 @@ productsRouter.put("/:pid", (req, res) => {
       });
     }
   } catch (error) {
-    return res.json({
-      statusCode: 500,
-      message: error.message,
-    });
+    return next(error);
   }
 });
 
